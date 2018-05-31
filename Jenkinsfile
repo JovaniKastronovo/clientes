@@ -18,7 +18,7 @@ node {
  
  	stage('Gradle Build') {
 	    if (isUnix()) {
-	        sh './gradlew clean buildImage  -Dhttps.proxyHost=10.50.8.20 -Dhttp.proxyHost=10.50.8.20 -Dhttp.proxyPort=8080'
+	        sh './gradlew clean buildImage  -Dhttp.proxyHost=10.50.8.20 -Dhttp.proxyPort=8080 -Dhttps.proxyHost=10.50.8.20 -Dhttps.proxyPort=8080'
 	    } else {
 	        bat 'gradlew.bat clean build'
 	    }
