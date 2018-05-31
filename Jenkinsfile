@@ -38,6 +38,11 @@ node {
              sh "docker push ${imageName}"
            }
     }
+    
+     stage('Deploy Kubernetes'){
+         sh "kubectl apply -f kubernetes/servicio-cliente-dep.yaml"
+         sh "kubectl apply -f kubernetes/servicio-cliente-svc.yaml"
+    }
       
   /*stage('Push to Docker Registry'){
           withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
