@@ -9,12 +9,10 @@ node {
     tag = readFile('commit-id').replace("\n", "").replace("\r", "")
     appName = "cliente"
     registryHost = "http://10.51.33.59:5000/"
-    imageName = "${appName}:${tag}"
+    //imageName = "${appName}:${tag}"
+    imageName = "jovaniac/servicio-cliente:0.0.1-ci-cd"
     env.BUILDIMG=imageName
 	
-    stage "Test"
-	echo 'Testing..'
-	echo 'End Testing..'
  
  	stage('Gradle Build') {
 	    if (isUnix()) {
@@ -24,10 +22,15 @@ node {
 	    }
 	}
 	
+	 stage "Build Image"
+        	echo 'Building..'
+        	sh "docker build -t ${imageName} build/libs/"
+		echo 'End Building..'
+	
     
-    stage "Deploy"
+ /*   stage "Deploy"
      	echo 'Deploying...'
 	sh "kubectl apply -f kubernetes/servicio-cliente-dep.yaml"
 	sh "kubectl apply -f kubernetes/servicio-cliente-svc.yaml"
-		echo 'End Deploying..'
+		echo 'End Deploying..'*/
 }
