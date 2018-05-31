@@ -18,9 +18,9 @@ node {
  
  	stage "Gradle Build"
 	    if (isUnix()) {
-	        dir('sub-dir') {sh 'gradle clean buildImage'}
+	        dir('sub-dir') {sh "gradle clean buildImage"}
 	    } else {
-	        dir('sub-dir') {bat 'gradlew.bat clean build'}
+	        dir('sub-dir') {bat 'gradlew.bat clean buildImage'}
 	    }
 	
     stage "Build"
