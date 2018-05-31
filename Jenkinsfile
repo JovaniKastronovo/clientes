@@ -1,7 +1,4 @@
-#!groovy
-
-pipeline {
-  agent none
+node {
 
 
     env.DOCKER_API_VERSION="1.23"
