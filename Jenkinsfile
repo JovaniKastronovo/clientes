@@ -15,10 +15,16 @@ node {
     stage "Test"
 	echo 'Testing..'
 	echo 'End Testing..'
-    
+ 
+ 	stage "Gradle Build"
+	    if (isUnix()) {
+	        dir('sub-dir') {sh './gradlew clean buildImage'}
+	    } else {
+	        dir('sub-dir') {bat 'gradlew.bat clean build'}
+	    }
+	
     stage "Build"
         echo 'Building MicroService Cliente..'
-        sh "gradle clean buildImage"
         sh "docker build -t ${imageName} build/lib/"
 	echo 'End Building..'
     
