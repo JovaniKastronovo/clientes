@@ -34,9 +34,22 @@ node {
            }
     }
     
-     stage('Deploy Kubernetes'){
+     stage('do some kubectl work') {
+            container('kubectl') {
+
+                withCredentials([[$class: 'UsernamePasswordMultiBinding', 
+                        credentialsId: 'dockerhub',
+                        usernameVariable: 'DOCKER_HUB_USER',
+                        passwordVariable: 'DOCKER_HUB_PASSWORD']]) {
+                    
+                    sh "kubectl get nodes"
+                }
+            }
+}
+    
+     /*stage('Deploy Kubernetes'){
          sh("kubectl apply -f kubernetes/")
-    }
+    }*/
       
   /*stage('Push to Docker Registry'){
           withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
