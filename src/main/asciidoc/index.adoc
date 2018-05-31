@@ -1,0 +1,62 @@
+= MicroServicio del Sistema CLIENTE UNICO
+Banco Azteca
+Documentación de API
+
+:toc-title: Tabla de contenidos
+:revnumber: {project-version}
+
+== Documentación del API de Registro de nuevos Clientes
+
+
+== Crear clientes en el sistema
+
+Mediante el siguiente endpoint se pueden agregar clientes al sistema.
+
+Datos de entrada
+include::{snippets}/v1-cliente/create/request-fields.adoc[]
+
+.Peticion enviada
+include::{snippets}/v1-cliente/create/http-request.adoc[]
+
+.Respuesta generada
+include::{snippets}/v1-cliente/create/http-response.adoc[]
+
+
+=== Ejemplo de uso
+
+Con `curl`:
+include::{snippets}/v1-cliente/create/curl-request.adoc[]
+
+Tambien se puede usar `httpie`:
+include::{snippets}/v1-cliente/create/httpie-request.adoc[]
+
+== Consultar clientes en el sistema
+
+Mediante el siguiente endpoint se pueden consultar los clientes del sistema
+
+.Peticion enviada
+include::{snippets}/v1-cliente/get/http-request.adoc[]
+
+.Respuesta generada
+include::{snippets}/v1-cliente/get/http-response.adoc[]
+
+=== Ejemplo de uso
+
+Con `curl`:
+include::{snippets}/v1-cliente/get/curl-request.adoc[]
+
+Tambien se puede usar `httpie`:
+include::{snippets}/v1-cliente/get/httpie-request.adoc[]
+
+
+=== Validaciones, Consulta de Clientes
+
+WARNING: al realizar la consulta de clientes y este no este declarado en Cliente Unico,
+se obtendra lo siguiente
+
+.Peticion enviada
+include::{snippets}/v1-cliente/getNotFound/http-request.adoc[]
+
+.Respuesta de Validacion
+include::{snippets}/v1-cliente/getNotFound/http-response.adoc[]
+

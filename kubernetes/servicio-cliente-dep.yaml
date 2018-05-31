@@ -1,0 +1,52 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: servicio-cliente-ci-cd
+  labels:
+    app: servicio-cliente-ci-cd
+
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: servicio-cliente-ci-cd
+  template:
+    metadata:
+      labels:
+        app: servicio-cliente-ci-cd
+    spec:
+      containers:
+        - name: servicio-cliente-ci-cd
+          image: jovaniac/servicio-cliente:0.0.1-ci-cd
+          ports:
+            - containerPort: 8081
+              name: http
+              protocol: TCP
+          imagePullPolicy: Always
+          resources:
+          #solicitud de memoria
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+          #limite de memoria
+            limits:
+              memory: "1024Mi"
+              cpu: "500m"           
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: servicio-cliente-ci-cd
+spec:
+  maxReplicas: 5
+  minReplicas: 1
+  targetCPUUtilizationPercentage: 50
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: servicio-cliente-ci-cd

@@ -1,0 +1,52 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: servicio-cliente-tracing
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: servicio-cliente-tracing
+        service: servicio-cliente-tracing
+        sb-demo: servicio-cliente-tracing
+    spec:
+      containers:
+      - name: servicio-cliente-tracing
+        image: jovaniac/servicio-cliente:0.0.1-tracing
+        imagePullPolicy: Never
+        ports:
+        - name: http
+          containerPort: 8081
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: servicio-cliente-tracing
+  labels:
+    service: servicio-cliente-tracing
+    sb-demo: sb-demo-service
+spec:
+  type: LoadBalancer
+  selector:
+    service: servicio-cliente-tracing
+  ports:
+  - name: http
+    port: 8081
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: servicio-cliente-tracing-gateway
+  annotations:
+    kubernetes.io/ingress.class: "istio"
+  labels:
+    sb-demo: servicio-cliente-tracing
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /api/v1/clienteunico/clientes.*
+        backend:
+          serviceName: servicio-cliente-tracing
+          servicePort: 8081

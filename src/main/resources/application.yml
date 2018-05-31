@@ -1,0 +1,50 @@
+microservicio:
+    title: Microservice de clientes sistema cliente unico
+    description: Microservicio de clientes
+    version: 1.0
+    termsOfServiceUrl: Terminos legales
+    contact:
+        name: Jovani Arzate       
+        email: jovani.arzate@elektra.com.mx
+    license:
+        name: Grupo Salinas
+
+server:  
+  port: ${PORT:8081}
+  
+instance.id: ${random.value}
+
+spring:  
+ application:
+  name: servicio-cliente-scaling
+ metrics:
+   export:
+     delay-millis: 1000
+     timeUnit: seconds
+     #interval: 1
+     #timeUnit: seconds
+     prefix: cliente
+     logger: com.bancoazteca.clienteunico.clientes
+     #includes: heap.used,heap.committed,mem,mem.free,threads,datasource.primary.active,datasource.primary.usage,gauge.response.persons,gauge.response.persons.id,gauge.response.persons.remove,gauge.firstservice
+
+
+logging:
+  level:
+    org.influxdb: DEBUG
+
+
+management:
+  security:
+    enabled: false
+
+security:
+  basic:
+    enabled: false
+
+sample:
+  zipkin:
+enabled: false
+
+
+  
+    
