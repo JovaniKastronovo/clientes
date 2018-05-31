@@ -27,6 +27,12 @@ node {
         	sh "docker build -t ${imageName} build/libs/"
 		echo 'End Building..'
 	
+	 stage "Push"
+		echo 'Pushing..'
+        	sh "docker push ${imageName}"
+		echo 'End Pushing..'
+
+	
     
  /*   stage "Deploy"
      	echo 'Deploying...'
