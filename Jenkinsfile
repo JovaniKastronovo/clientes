@@ -1,6 +1,7 @@
+
 node {
 
-    checkout scm
+
 
     env.DOCKER_API_VERSION="1.23"
     
@@ -13,7 +14,13 @@ node {
     imageName = "jovaniac/servicio-cliente:0.0.1-ci-cd"
     env.BUILDIMG=imageName
 	
- 
+	
+		
+	 stage('Descargando Codigo') {
+ 	 	checkout scm
+	 }
+	
+	
  	stage('Gradle Build') {
 	    if (isUnix()) {
 	        sh './gradlew clean buildImage'
@@ -26,12 +33,25 @@ node {
         	echo 'Building..'
         	sh "docker build -t ${imageName} build/libs/"
 		echo 'End Building..'
-	
-	 stage "Push"
-		echo 'Pushing..'
-        	sh "docker push ${imageName}"
-		echo 'End Pushing..'
 
+	  stage('Docker Push') {
+      		agent any
+      		steps {
+        		withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+         		 sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+         		 sh 'docker push ${imageName}'
+       		 }
+      		}
+	  }
+		  
+	/*stage('Push to Docker Registry'){
+       	  withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+          sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+          sh 'docker push ${imageName}'
+		}
+   	 }*/
+
+		
 	
     
  /*   stage "Deploy"
