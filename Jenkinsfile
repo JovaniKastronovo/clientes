@@ -35,7 +35,7 @@ node {
      stage('Push to Docker Registry'){
       withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
              sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-             sh 'docker push ${imageName}'
+             sh "docker push ${imageName}"
            }
     }
       
