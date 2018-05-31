@@ -24,16 +24,6 @@ node {
 	    }
 	}
 	
-    stage "Build"
-        echo 'Building MicroService Cliente..'
-        sh "docker build -t ${imageName} build/lib/"
-	echo 'End Building..'
-    
-    stage "Push"
-	echo 'Pushing in Registry'
-        sh "docker push ${imageName}"
-	echo 'End Pushing..'
-	
     
     stage "Deploy"
      	echo 'Deploying...'
