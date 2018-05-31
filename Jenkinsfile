@@ -17,18 +17,20 @@ node {
 	echo 'End Testing..'
     
     stage "Build"
-        echo 'Building..'
-        sh "docker build -t ${imageName} hello-kenzan/"
+        echo 'Building MicroService Cliente..'
+        sh "gradle clean buildImage"
+        sh "docker build -t ${imageName} build/lib/"
 	echo 'End Building..'
     
     stage "Push"
-	echo 'Pushing..'
+	echo 'Pushing in Registry'
         sh "docker push ${imageName}"
 	echo 'End Pushing..'
 	
     
     stage "Deploy"
-        echo 'Deploying..'
-	sh "kubectl config view"
-	echo 'End Deploying..'
+     	echo 'Deploying...'
+	sh "kubectl apply -f kubernetes/servicio-cliente-dep.yaml"
+	sh "kubectl apply -f kubernetes/servicio-cliente-svc.yaml"
+		echo 'End Deploying..'
 }
