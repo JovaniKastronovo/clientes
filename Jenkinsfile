@@ -35,7 +35,7 @@ node {
     }
     
      stage('Deploy Kubernetes'){
-         sh("kubectl --token="$admin_token" apply -f kubernetes/")
+         sh("kubectl --token='$admin_token' apply -f kubernetes/")
     }
       
   /*stage('Push to Docker Registry'){
