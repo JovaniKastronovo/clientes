@@ -8,7 +8,7 @@ node {
 
     tag = readFile('commit-id').replace("\n", "").replace("\r", "")
     appName = "cliente"
-    registryHost = "127.0.0.1:30400/"
+    registryHost = "http://10.51.33.59:5000/"
     imageName = "${registryHost}${appName}:${tag}"
     env.BUILDIMG=imageName
 	
@@ -18,7 +18,7 @@ node {
  
  	stage "Gradle Build"
 	    if (isUnix()) {
-	        dir('sub-dir') {sh './gradlew clean buildImage'}
+	        dir('sub-dir') {sh 'gradle clean buildImage'}
 	    } else {
 	        dir('sub-dir') {bat 'gradlew.bat clean build'}
 	    }
