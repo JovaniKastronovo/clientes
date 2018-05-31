@@ -16,12 +16,13 @@ node {
 	echo 'Testing..'
 	echo 'End Testing..'
  
- 	stage "Gradle Build"
+ 	stage('Gradle Build') {
 	    if (isUnix()) {
-	        dir('sub-dir') {sh "gradle clean buildImage"}
+	        sh './gradlew clean build'
 	    } else {
-	        dir('sub-dir') {bat 'gradlew.bat clean buildImage'}
+	        bat 'gradlew.bat clean build'
 	    }
+	}
 	
     stage "Build"
         echo 'Building MicroService Cliente..'
