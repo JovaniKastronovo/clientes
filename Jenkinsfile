@@ -18,7 +18,7 @@ node {
  
  	stage('Gradle Build') {
 	    if (isUnix()) {
-	        sh './gradlew clean build'
+	        sh './gradlew clean buildImage'
 	    } else {
 	        bat 'gradlew.bat clean build'
 	    }
