@@ -34,7 +34,11 @@ node {
            }
     }
     
-     stage('do some kubectl work') {
+    stage('Deploy Kubernetes'){
+         sh("kubectl apply -f kubernetes/")
+    }
+    
+    /* stage('do some kubectl work') {
             container('kubectl') {
 
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', 
@@ -45,7 +49,7 @@ node {
                     sh "kubectl get nodes"
                 }
             }
-}
+}*/
     
      /*stage('Deploy Kubernetes'){
          sh("kubectl apply -f kubernetes/")
