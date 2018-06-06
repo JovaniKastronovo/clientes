@@ -18,7 +18,13 @@ node {
           bat 'gradlew.bat clean build'
       }
   }
-
+	
+   stage ('Build Image') {
+          echo 'Building..'
+          sh "docker build -t ${imageName} build/libs/"
+    echo 'End Building..'
+	   
+   }
     env.DOCKER_API_VERSION="1.23"
     sh "git rev-parse --short HEAD > commit-id"
     tag = readFile('commit-id').replace("\n", "").replace("\r", "")
