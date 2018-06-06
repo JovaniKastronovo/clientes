@@ -37,16 +37,4 @@ spec:
             limits:
               memory: "1024Mi"
               cpu: "500m"           
----
-apiVersion: autoscaling/v1
-kind: HorizontalPodAutoscaler
-metadata:
-  name: servicio-cliente-ci-cd
-spec:
-  maxReplicas: 5
-  minReplicas: 1
-  targetCPUUtilizationPercentage: 50
-  scaleTargetRef:
-    apiVersion: extensions/v1beta1
-    kind: Deployment
-    name: servicio-cliente-ci-cd
+
