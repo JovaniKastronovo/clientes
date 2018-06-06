@@ -10,12 +10,5 @@ node {
 	stage('Descargando Codigo') {
 	 checkout scm
 	}
-	
-	stage('Gradle Build') {
-      	   if (isUnix()) {
-            sh './gradlew clean buildImage'
-      	  } else {
-            bat 'gradlew.bat clean build'
-      	}
-  }
+
 }
