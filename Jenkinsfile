@@ -16,12 +16,5 @@ node {
 	echo 'Testing..'
 	echo 'End Testing..'
 	
-    stage "Build"
-        echo 'Building..'
-        sh "docker build -t ${imageName} hello-kenzan/"
-	echo 'End Building..'
-    stage "test2"
-	echo'testing kubectl'
-	sh "kubectl cluster-info"
-   
+ 
 }
