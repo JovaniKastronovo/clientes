@@ -1,5 +1,7 @@
 node {
-
+	
+   imageName = "jovaniac/servicio-cliente:0.0.1-ci-cd"
+	
    stage('Descargando Codigo') {
     checkout scm
    }
@@ -31,7 +33,7 @@ node {
     appName = "cliente"
     registryHost = "http://10.51.33.59:5000/"
     //imageName = "${appName}:${tag}"
-    imageName = "jovaniac/servicio-cliente:0.0.1-ci-cd"
+    //imageName = "jovaniac/servicio-cliente:0.0.1-ci-cd"
     env.BUILDIMG=imageName
     
  
