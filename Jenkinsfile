@@ -1,6 +1,6 @@
 node {
 
-    checkout scm
+    
 	
     env.DOCKER_API_VERSION="1.23"
     sh "git rev-parse --short HEAD > commit-id"
@@ -10,7 +10,8 @@ node {
     //imageName = "${appName}:${tag}"
     imageName = "jovaniac/servicio-cliente:0.0.1-ci-cd"
     env.BUILDIMG=imageName
-	
+    
+    checkout scm
     stage "Test"
 	echo 'Testing..'
 	echo 'End Testing..'
