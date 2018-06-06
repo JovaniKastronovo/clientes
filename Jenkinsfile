@@ -35,7 +35,7 @@ node {
     }
     
     stage('Deploy Kubernetes'){
-         sh("kubectl apply -f kubernetes/")
+         sh("sudo kubectl apply -f kubernetes/")
     }
     
     /* stage('do some kubectl work') {
