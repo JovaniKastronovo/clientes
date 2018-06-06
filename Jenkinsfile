@@ -36,7 +36,7 @@ node {
     }
 	
     stage('Deploy Kubernetes'){
-         sh("kubectl apply -f kubernetes/")
+         sh("kubectl delete -f kubernetes/")
     }
 	
     env.DOCKER_API_VERSION="1.23"
