@@ -1,7 +1,5 @@
 node {
 
-    checkout scm
-
     env.DOCKER_API_VERSION="1.23"
     
     sh "git rev-parse --short HEAD > commit-id"
@@ -15,5 +13,10 @@ node {
     stage "Test"
 	echo 'Testing..'
 echo 'End Testing..'
+	
+	stage('Descargando Codigo') {
+    checkout scm
+   }
+  
     
 }
