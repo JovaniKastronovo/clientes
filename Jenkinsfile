@@ -38,6 +38,8 @@ node {
          sh("kubectl apply -f kubernetes/")
     }
     
+    }
+    
     /* stage('do some kubectl work') {
             container('kubectl') {
 
