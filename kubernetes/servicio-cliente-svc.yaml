@@ -3,6 +3,7 @@ apiVersion: v1
 metadata:
   name: servicio-cliente-ci-cd
 spec:
+  type: NodePort
   selector:
     # Esta etiqueta la usa k8s para buscar el pod
     # al que le enviara el trafico. Un error aqui 
