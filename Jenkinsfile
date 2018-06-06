@@ -1,6 +1,10 @@
 node {
 
+   stage('Descargando Codigo') {
     checkout scm
+   }
+	
+    
 	
     stage "Test"
 	echo 'Testing..'
