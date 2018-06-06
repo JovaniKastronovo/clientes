@@ -3,7 +3,6 @@ apiVersion: v1
 metadata:
   name: servicio-cliente-ci-cd
 spec:
-#  type: LoadBalancer
   type: NodePort
   selector:
     # Esta etiqueta la usa k8s para buscar el pod
@@ -14,24 +13,6 @@ spec:
   - protocol: TCP
     port: 8081
     name: http
----
-###########################################################################
-# Ingress resource (gateway)
-##########################################################################
-#apiVersion: extensions/v1beta1
-#kind: Ingress
-#metadata:
-#  name: servicio-cliente-ci-cd
-#  annotations:
-#    kubernetes.io/ingress.class: "istio"
-#spec:
-#  rules:
-#  - http:
-#      paths:
-#      - path: /api/v1/clienteunico/clientes.*
-#        backend:
-#          serviceName: servicio-cliente-ci-cd
-#          servicePort: 8081
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
