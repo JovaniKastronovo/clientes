@@ -1,33 +1,44 @@
-podTemplate(label: 'mypod', containers: [
-    containerTemplate(name: 'gradle', image: 'gradle:4.5.1-jdk9', command: 'cat', ttyEnabled: true),
-    containerTemplate(name: 'docker', image: 'docker', ttyEnabled: true, command: 'cat'),
-    containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:v1.8.0', command: 'cat', ttyEnabled: true),
-    containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:latest', command: 'cat', ttyEnabled: true)
-  ],
-  volumes: [
-    hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
-  ]) {
-    node('mypod') {
+node {
 
-        stage('do some Docker work') {
-            container('docker') {
 
-                withCredentials([[$class: 'UsernamePasswordMultiBinding', 
-                        credentialsId: 'dockerhub',
-                        usernameVariable: 'DOCKER_HUB_USER', 
-                        passwordVariable: 'DOCKER_HUB_PASSWORD']]) {
-                    
-                    sh """
-                        docker pull ubuntu
-                        docker tag ubuntu ${env.DOCKER_HUB_USER}/ubuntu:${env.BUILD_NUMBER}
-                        """
-                    sh "docker login -u ${env.DOCKER_HUB_USER} -p ${env.DOCKER_HUB_PASSWORD} "
-                    sh "docker push ${env.DOCKER_HUB_USER}/ubuntu:${env.BUILD_NUMBER} "
-                }
-            }
-        }
+    env.DOCKER_API_VERSION="1.23"
+    sh "git rev-parse --short HEAD > commit-id"
+    tag = readFile('commit-id').replace("\n", "").replace("\r", "")
+    appName = "cliente"
+    registryHost = "http://10.51.33.59:5000/"
+    //imageName = "${appName}:${tag}"
+    imageName = "jovaniac/servicio-cliente:0.0.1-ci-cd"
+    env.BUILDIMG=imageName
+  
+   stage('Descargando Codigo') {
+    checkout scm
+   }
+  
+  stage('Gradle Build') {
+      if (isUnix()) {
+          sh './gradlew clean buildImage'
+      } else {
+          bat 'gradlew.bat clean build'
+      }
+  }
+  
+   stage "Build Image"
+          echo 'Building..'
+          sh "docker build -t ${imageName} build/libs/"
+    echo 'End Building..'
 
-        stage('do some kubectl work') {
+     stage('Push to Docker Registry'){
+      withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+             sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+             sh "docker push ${imageName}"
+           }
+    }
+    
+    stage('Deploy Kubernetes'){
+         sh("kubectl apply -f kubernetes/")
+    }
+    
+    /* stage('do some kubectl work') {
             container('kubectl') {
 
                 withCredentials([[$class: 'UsernamePasswordMultiBinding', 
@@ -38,12 +49,15 @@ podTemplate(label: 'mypod', containers: [
                     sh "kubectl get nodes"
                 }
             }
-        }
-        stage('do some helm work') {
-            container('helm') {
-
-               sh "helm ls"
-            }
-        }
+}*/
+    
+     /*stage('Deploy Kubernetes'){
+         sh("kubectl apply -f kubernetes/")
+    }*/
+      
+  /*stage('Push to Docker Registry'){
+          withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+          sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+          sh 'docker push ${imageName}'
     }
-}
+     }*/
