@@ -6,9 +6,18 @@ node {
 	
     
 	
-    stage "Test"
+   stage ('Test'){
 	echo 'Testing..'
 	echo 'End Testing..'
+    }
+	
+   stage('Gradle Build') {
+      if (isUnix()) {
+          sh './gradlew clean buildImage'
+      } else {
+          bat 'gradlew.bat clean build'
+      }
+  }
 
     env.DOCKER_API_VERSION="1.23"
     sh "git rev-parse --short HEAD > commit-id"
