@@ -35,6 +35,10 @@ node {
            }
     }
 	
+    stage('Deploy Kubernetes'){
+         sh("kubectl apply -f kubernetes/")
+    }
+	
     env.DOCKER_API_VERSION="1.23"
     sh "git rev-parse --short HEAD > commit-id"
     tag = readFile('commit-id').replace("\n", "").replace("\r", "")
