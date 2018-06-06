@@ -7,9 +7,9 @@ node {
 	imageName = "${registryHost}${appName}:${tag}"
 	env.BUILDIMG=imageName
   
-	stage('Descargando Codigo') {
+	
 	 checkout scm
-	}
+	
  
     stage "Test"
 	echo 'Testing..'
