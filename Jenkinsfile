@@ -10,9 +10,12 @@ node {
 	stage('Descargando Codigo') {
 	 checkout scm
 	}
- 
-    stage "Test"
-	echo 'Testing..'
-	echo 'End Testingsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa..'
 	
+	stage('Gradle Build') {
+      	   if (isUnix()) {
+            sh './gradlew clean buildImage'
+      	  } else {
+            bat 'gradlew.bat clean build'
+      	}
+  }
 }
