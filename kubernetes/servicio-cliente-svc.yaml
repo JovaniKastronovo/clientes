@@ -36,8 +36,8 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: jenkins
-  namespace: jenkins
+  name: servicio-cliente-ci-cd
+  namespace: servicio-cliente-ci-cd
 spec:
   rules:
   - http:
