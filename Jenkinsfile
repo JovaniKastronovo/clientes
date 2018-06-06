@@ -8,7 +8,7 @@ node {
 	
     
 	
-   stage ('Test'){
+   stage ('Test Unitarios'){
 	echo 'Testing..'
 	echo 'End Testing..'
     }
@@ -27,6 +27,14 @@ node {
     echo 'End Building..'
 	   
    }
+	
+   stage('Push to Docker Registry'){
+      withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+             sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+             sh "docker push ${imageName}"
+           }
+    }
+	
     env.DOCKER_API_VERSION="1.23"
     sh "git rev-parse --short HEAD > commit-id"
     tag = readFile('commit-id').replace("\n", "").replace("\r", "")
