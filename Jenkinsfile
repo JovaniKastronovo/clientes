@@ -14,9 +14,7 @@ node {
 	echo 'Testing..'
 echo 'End Testing..'
 	
-	stage('Descargando Codigo') {
     checkout scm
-   }
   
     
 }
